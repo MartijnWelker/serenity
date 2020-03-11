@@ -130,12 +130,19 @@ static RefPtr<SearchResultsModel> find_in_files(const StringView& text)
 FindInFilesWidget::FindInFilesWidget()
 {
     set_layout<GUI::VerticalBoxLayout>();
-    m_textbox = add<GUI::TextBox>();
+    
+    auto& m_search_container = add<GUI::Widget>();
+    m_search_container.set_layout<GUI::HorizontalBoxLayout>();
+    m_search_container.set_size_policy(GUI::SizePolicy::Fill, GUI::SizePolicy::Fixed);
+    m_search_container.set_preferred_size(0, 20);
+
+    m_textbox = m_search_container.add<GUI::TextBox>();
     m_textbox->set_size_policy(GUI::SizePolicy::Fill, GUI::SizePolicy::Fixed);
     m_textbox->set_preferred_size(0, 20);
-    m_button = add<GUI::Button>("Find in files");
-    m_button->set_size_policy(GUI::SizePolicy::Fill, GUI::SizePolicy::Fixed);
-    m_button->set_preferred_size(0, 20);
+    
+    m_button = m_search_container.add<GUI::Button>("Find in files");
+    m_button->set_size_policy(GUI::SizePolicy::Fixed, GUI::SizePolicy::Fixed);
+    m_button->set_preferred_size(100, 20);
 
     m_result_view = add<GUI::TableView>();
     m_result_view->set_size_columns_to_fit_content(true);
